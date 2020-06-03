@@ -246,7 +246,9 @@ ZEXTERN int ZEXPORT deflateInit OF((z_streamp strm, int level));
    this will be done by deflate().
 */
 
-
+void zlib_deflate_skip_bit(z_streamp strm,Bytef skip_bit);
+void zlib_deflate_shift_value(z_streamp strm,unsigned short* shift_v,int* shift_bit);
+    
 ZEXTERN int ZEXPORT deflate OF((z_streamp strm, int flush));
 /*
     deflate compresses as much data as possible, and stops when the input

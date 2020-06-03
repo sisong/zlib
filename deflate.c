@@ -760,6 +760,22 @@ local void flush_pending(strm)
     } while (0)
 
 /* ========================================================================= */
+
+
+void zlib_deflate_skip_bit(z_streamp strm,Bytef skip_bit){
+    deflate_state *s=strm->state;
+    Assert(s->bi_valid==0,"deflate_skip_bit error");
+    s->bi_buf = 0;
+    s->bi_valid=skip_bit;
+}
+
+void zlib_deflate_shift_value(z_streamp strm,unsigned short* shift_v,int* shift_bit){
+    deflate_state *s=strm->state;
+    Assert(s->bi_valid<8,"deflate_shift_value error");
+    *shift_v=s->bi_buf;
+    *shift_bit=s->bi_valid;
+}
+
 int ZEXPORT deflate (strm, flush)
     z_streamp strm;
     int flush;
