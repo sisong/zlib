@@ -398,6 +398,8 @@ ZEXTERN int ZEXPORT inflateInit OF((z_streamp strm));
    that is deferred until inflate() is called.
 */
 
+int  zlib_inflate_is_block_end(z_streamp strm);
+void zlib_inflate_shift_value(z_streamp strm,unsigned long* shift_v,unsigned int* shift_bit);
 
 ZEXTERN int ZEXPORT inflate OF((z_streamp strm, int flush));
 /*

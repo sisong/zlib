@@ -619,6 +619,17 @@ unsigned copy;
    will return Z_BUF_ERROR if it has not reached the end of the stream.
  */
 
+int  zlib_inflate_is_block_end(z_streamp strm){
+    struct inflate_state FAR *s=(struct inflate_state FAR *)strm->state;
+    return s->mode==TYPE;
+}
+void zlib_inflate_shift_value(z_streamp strm,unsigned long* shift_v,unsigned int* shift_bit){
+    struct inflate_state FAR *s=(struct inflate_state FAR *)strm->state;
+    *shift_v=s->hold;
+    *shift_bit=s->bits;
+}
+
+
 int ZEXPORT inflate(strm, flush)
 z_streamp strm;
 int flush;
