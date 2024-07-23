@@ -946,10 +946,7 @@ local void flush_pending(z_streamp strm) {
 
 
 void zlib_deflate_skip_bit(z_streamp strm,Bytef skip_bit){
-    deflate_state *s=strm->state;
-    Assert(s->bi_valid==0,"deflate_skip_bit error");
-    s->bi_buf = 0;
-    s->bi_valid=skip_bit;
+    zlib_deflate_set_shift_value(strm,0,skip_bit);
 }
 
 void zlib_deflate_shift_value(z_streamp strm,unsigned short* shift_v,int* shift_bit){
@@ -959,6 +956,12 @@ void zlib_deflate_shift_value(z_streamp strm,unsigned short* shift_v,int* shift_
     *shift_bit=s->bi_valid;
 }
 
+void zlib_deflate_set_shift_value(z_streamp strm,unsigned short shift_v,int shift_bit){
+    deflate_state *s=strm->state;
+    Assert(shift_bit<8,"deflate_shift_value error");
+    s->bi_buf  =shift_v;
+    s->bi_valid=shift_bit;
+}
 
 int ZEXPORT deflate(z_streamp strm, int flush) {
     int old_flush; /* value of flush param for previous deflate call */

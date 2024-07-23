@@ -589,14 +589,23 @@ local int updatewindow(z_streamp strm, const Bytef *end, unsigned copy) {
 
 int  zlib_inflate_is_block_end(z_streamp strm){
     struct inflate_state FAR *s=(struct inflate_state FAR *)strm->state;
-    return s->mode==TYPE;
+    return (s->mode==TYPE)&&(((strm->data_type>>3<<3)|64)==128+64);
 }
+int zlib_inflate_is_last_block_end(z_streamp strm){
+    struct inflate_state FAR *s=(struct inflate_state FAR *)strm->state;
+    return (s->mode==TYPE)&&((strm->data_type>>3<<3)==128+64);
+}
+
 void zlib_inflate_shift_value(z_streamp strm,unsigned long* shift_v,unsigned int* shift_bit){
     struct inflate_state FAR *s=(struct inflate_state FAR *)strm->state;
     *shift_v=s->hold;
     *shift_bit=s->bits;
 }
-
+void zlib_inflate_set_shift_value(z_streamp strm,unsigned long shift_v,unsigned int shift_bit){
+    struct inflate_state FAR *s=(struct inflate_state FAR *)strm->state;
+    s->hold=shift_v;
+    s->bits=shift_bit;
+}
 
 int ZEXPORT inflate(z_streamp strm, int flush) {
     struct inflate_state FAR *state;

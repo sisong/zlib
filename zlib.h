@@ -248,6 +248,7 @@ ZEXTERN int ZEXPORT deflateInit(z_streamp strm, int level);
 
 void zlib_deflate_skip_bit(z_streamp strm,Bytef skip_bit);
 void zlib_deflate_shift_value(z_streamp strm,unsigned short* shift_v,int* shift_bit);
+void zlib_deflate_set_shift_value(z_streamp strm,unsigned short shift_v,int shift_bit);
 
 ZEXTERN int ZEXPORT deflate(z_streamp strm, int flush);
 /*
@@ -400,7 +401,9 @@ ZEXTERN int ZEXPORT inflateInit(z_streamp strm);
 */
 
 int  zlib_inflate_is_block_end(z_streamp strm);
+int  zlib_inflate_is_last_block_end(z_streamp strm);
 void zlib_inflate_shift_value(z_streamp strm,unsigned long* shift_v,unsigned int* shift_bit);
+void zlib_inflate_set_shift_value(z_streamp strm,unsigned long shift_v,unsigned int shift_bit);
 
 ZEXTERN int ZEXPORT inflate(z_streamp strm, int flush);
 /*
